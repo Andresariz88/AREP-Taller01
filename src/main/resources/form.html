@@ -1,26 +1,90 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Form Example</title>
+    <title>Búsqueda</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+
+      * {
+        font-family: "Roboto", sans-serif;
+        background-color: #f5f6fa;
+      }
+
+      h1 {
+        padding: 5px;
+        margin: 15px 0px;
+      }
+
+      .form {
+        padding: 5px;
+      }
+
+      .form label {
+        margin: 5px 2px;
+      }
+
+      .form input {
+        margin: 5px 2px;
+        padding: 8px;
+        font-size: 15px;
+        border-radius: 3px;
+        border: 1px solid rgba(0, 0, 0, 0);
+        box-shadow: 0 6px 10px 0 rgba(0, 0, 0 , .15);
+        transition: all 200ms ease;
+      }
+
+      .form input:hover {
+        border: 1px solid rgba(0, 0, 0, 0.281);
+        box-shadow: 0 6px 10px 0 rgba(0, 0, 0 , .22);
+      }
+
+      .form input:focus {
+        outline: none !important;
+        border: 1px solid #6c7ff2;
+      }
+
+      .btn {
+        color: white;
+        background-color: #7f8ff4;
+        transition: all 200ms ease;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        background-color: #6c7ff2;
+      }
+
+      .container {
+        margin: 5px 2px;
+        padding: 8px;
+      }
+
+    </style>
   </head>
 
   <body>
-    <h1>Form with POST</h1>
-    <form action="/hellopost">
-      <label for="postname">Name:</label><br>
-      <input type="text" id="postname" name="name" value="John" required><br><br>
-      <input type="button" value="Submit" onclick="loadPostMsg(postname)">
+    <h1>Busca una Película</h1>
+    <form class="form" action="/form">
+      <label for="postname">Nombre:</label><br>
+      <input type="text" id="postname" name="s" value="John" placeholder="Ingresa el nombre" required><br>
+      <input class="btn" type="button" value="Buscar" onclick="loadPostMsg(postname)">
     </form>
-      <div id="postrespmsg"></div>
+      <div class="container" id="postrespmsg"></div>
       <script>
         function loadPostMsg(name){
+          let movie;
             let url = "/form?s=" + name.value;
 
             fetch (url, {method: 'POST'})
-                .then(x => x.text())
-                .then(y => document.getElementById("postrespmsg").innerHTML = y);
+                .then(response => response.json())
+                .then(data => {
+                  let div = document.getElementById("postrespmsg");
+
+                  document.getElementById("postrespmsg").innerHTML = data;
+                } /*document.getElementById("postrespmsg").innerHTML = data*/);
+            
           }
       </script>
   </body>
