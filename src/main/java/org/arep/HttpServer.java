@@ -202,18 +202,31 @@ public class HttpServer {
                 "    </form>\n" +
                 "      <div class=\"container\" id=\"postrespmsg\"></div>\n" +
                 "      <script>\n" +
-                "        function loadPostMsg(name){\n" +
-                "          let movie;\n" +
-                "            let url = \"/form?s=\" + name.value;\n" +
+                "        function displayJson(json, div) {\n" +
+                "            for (const key of Object.keys(json)) {\n" +
+                "                if (key == \"Ratings\") {\n" +
+                "                    div.innerHTML += \"Ratings: \"\n" +
+                "                    for (const ratingKey of Object.keys(json[key])) {\n" +
+                "                        div.innerHTML += json[key][ratingKey][\"Source\"] + \": \" + json[key][ratingKey][\"Value\"] + \", \";\n" +
+                "                    }\n" +
+                "                    div.innerHTML += \"<br/>\"\n" +
+                "                } else {\n" +
+                "                    div.innerHTML += key + \": \" + json[key] + \"<br/>\";\n" +
+                "                }\n" +
+                "            }\n" +
+                "        }\n" +
                 "\n" +
+                "        function loadPostMsg(name){\n" +
+                "            let movie;\n" +
+                "            let url = \"/form?s=\" + name.value;\n" +
                 "            fetch (url, {method: 'POST'})\n" +
                 "                .then(response => response.json())\n" +
                 "                .then(data => {\n" +
-                "                  let div = document.getElementById(\"postrespmsg\");\n" +
-                "\n" +
-                "                  document.getElementById(\"postrespmsg\").innerHTML = data;\n" +
+                "                    let div = document.getElementById(\"postrespmsg\");\n" +
+                "                    div.innerHTML = \"\";\n" +
+                "                    console.log(data);\n" +
+                "                    displayJson(data, div);\n" +
                 "                } /*document.getElementById(\"postrespmsg\").innerHTML = data*/);\n" +
-                "            \n" +
                 "          }\n" +
                 "      </script>\n" +
                 "  </body>\n" +
