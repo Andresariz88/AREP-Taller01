@@ -8,12 +8,19 @@ import java.net.*;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Java server which exposes the movie search services
+ */
 public class HttpServer {
 
     private static final String USER_AGENT = "Mozilla/5.0";
     private static final String GET_URL = "https://omdbapi.com/?t=%S&apikey=1d53bda9";
-    private static final ConcurrentHashMap<String, String> cache = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<String, String> cache = new ConcurrentHashMap<>();
 
+    /**
+     * Method that starts the server and handle the requests according to what is required
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = null;
         try {
@@ -74,9 +81,9 @@ public class HttpServer {
     }
 
     /**
-     * Método que obtiene la película ingresada por el usuario, ya sea del caché o del API.
-     * @param movie película a buscar
-     * @return String correspondiente al la información de la película en formato JSON
+     * Method that gets the movie entered by the user, either from the cache or from the API
+     * @param movie movie to look for
+     * @return String corresponding to the movie information in JSON format
      * @throws IOException
      */
     public static String getMovie(String movie) throws IOException {
@@ -116,13 +123,10 @@ public class HttpServer {
         return reqMovie;
     }
 
-    public static String jsonSimple() {
-        return "HTTP/1.1 200 OK\r\n" +
-                "Content-type: application/json\r\n"+
-                "\r\n" +
-                "{\"Title\":\"Guardians of the Galaxy Vol. 2\",\"Year\":\"2017\",\"Rated\":\"PG-13\",\"Released\":\"05 May 2017\",\"Runtime\":\"136 min\",\"Genre\":\"Action, Adventure, Comedy\",\"Director\":\"James Gunn\",\"Writer\":\"James Gunn, Dan Abnett, Andy Lanning\",\"Actors\":\"Chris Pratt, Zoe Saldana, Dave Bautista\",\"Plot\":\"The Guardians struggle to keep together as a team while dealing with their personal family issues, notably Star-Lord's encounter with his father the ambitious celestial being Ego.\",\"Language\":\"English\",\"Country\":\"United States\",\"Awards\":\"Nominated for 1 Oscar. 15 wins & 60 nominations total\",\"Poster\":\"https://m.media-amazon.com/images/M/MV5BNjM0NTc0NzItM2FlYS00YzEwLWE0YmUtNTA2ZWIzODc2OTgxXkEyXkFqcGdeQXVyNTgwNzIyNzg@._V1_SX300.jpg\",\"Ratings\":[{\"Source\":\"Internet Movie Database\",\"Value\":\"7.6/10\"},{\"Source\":\"Rotten Tomatoes\",\"Value\":\"85%\"},{\"Source\":\"Metacritic\",\"Value\":\"67/100\"}],\"Metascore\":\"67\",\"imdbRating\":\"7.6\",\"imdbVotes\":\"687,044\",\"imdbID\":\"tt3896198\",\"Type\":\"movie\",\"DVD\":\"22 Aug 2017\",\"BoxOffice\":\"$389,813,101\",\"Production\":\"N/A\",\"Website\":\"N/A\",\"Response\":\"True\"}";
-    }
-
+    /**
+     * Method that returns the form page to the user in the web navigator
+     * @return String corresponding to the web page in HTML format
+     */
     public static String htmlGetForm() {
         return "HTTP/1.1 200 OK\r\n" +
                 "Content-type: text/html\r\n" +
